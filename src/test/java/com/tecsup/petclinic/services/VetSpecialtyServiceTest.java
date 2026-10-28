@@ -2,6 +2,7 @@ package com.tecsup.petclinic.services;
 
 import com.tecsup.petclinic.entities.VetSpecialty;
 import com.tecsup.petclinic.exceptions.VetSpecialtyAlreadyAssignedException;
+import com.tecsup.petclinic.exceptions.VetSpecialtyNotFoundException;
 import com.tecsup.petclinic.repositories.VetSpecialtyRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,23 @@ public class VetSpecialtyServiceTest {
                 () -> this.vetSpecialtyService.assignSpecialtyToVet(VET_ID, SPECIALTY_ID));
 
         log.info("Excepción esperada: {}", ex.getMessage());
+    }
+
+    /**
+     * Integrante A: quitar especialidad
+     */
+    @Test
+    public void testRemoveSpecialtyFromVet() {
+        Integer VET_ID = 3;        // Linda Douglas
+        Integer SPECIALTY_ID = 3;  // dentistry (existe en data.sql para el veterinario 3)
+
+        // Act: Intentar remover la especialidad asignada
+        try {
+            this.vetSpecialtyService.removeSpecialtyFromVet(VET_ID, SPECIALTY_ID);
+            log.info("Especialidad {} removida exitosamente del veterinario {}", SPECIALTY_ID, VET_ID);
+        } catch (VetSpecialtyNotFoundException e) {
+            fail("No debería fallar la eliminación de una especialidad existente: " + e.getMessage());
+        }
     }
 
 }
