@@ -1,0 +1,92 @@
+package com.tecsup.petclinic.services;
+
+import com.tecsup.petclinic.entities.VetSpecialty;
+import com.tecsup.petclinic.exceptions.VetSpecialtyAlreadyAssignedException;
+import com.tecsup.petclinic.exceptions.VetSpecialtyNotFoundException;
+import com.tecsup.petclinic.repositories.VetSpecialtyRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@Slf4j
+@SpringBootTest
+@Transactional
+public class VetSpecialtyServiceTest {
+
+    @Autowired
+    private VetSpecialtyService vetSpecialtyService;
+
+    @Autowired
+    private VetSpecialtyRepository repository;
+
+    /**
+     * Prueba: Asignar una especialidad de forma exitosa a un veterinario.
+     */
+    @Test
+    public void testAssignSpecialtyToVet() {
+        Integer VET_ID = 1;        // James Carter (según data.sql)
+        Integer SPECIALTY_ID = 3;  // dentistry
+
+        try {
+            VetSpecialty result = this.vetSpecialtyService.assignSpecialtyToVet(VET_ID, SPECIALTY_ID);
+            log.info("Asignación creada en H2: {}", result);
+
+            assertNotNull(result);
+            assertEquals(VET_ID, result.getVetId());
+            assertEquals(SPECIALTY_ID, result.getSpecialtyId());
+            assertFalse(result.getPrimary());
+
+        } catch (VetSpecialtyAlreadyAssignedException e) {
+            fail("No debería lanzar excepción al asignar una especialidad válida: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Integrante A: No permitir asignar dos veces la misma especialidad.
+     */
+    @Test
+    public void testAssignDuplicate_ShouldFail() {
+        Integer VET_ID = 2;        // Helen Leary
+        Integer SPECIALTY_ID = 1;  // radiology (ya asignada en data.sql)
+
+        // Act + Assert: Debe lanzar la excepción porque ya existe en la BD
+        VetSpecialtyAlreadyAssignedException ex = assertThrows(
+                VetSpecialtyAlreadyAssignedException.class,
+                () -> this.vetSpecialtyService.assignSpecialtyToVet(VET_ID, SPECIALTY_ID));
+
+        log.info("Excepción esperada: {}", ex.getMessage());
+    }
+
+    /**
+     * Integrante A: Quitar especialidad y validar excepciones o ausencia en BD.
+     */
+    @Test
+    public void testRemoveSpecialtyFromVet() {
+        Integer VET_ID = 3;        // Linda Douglas
+        Integer SPECIALTY_ID = 3;  // dentistry (existe en data.sql para el veterinario 3)
+
+        // Act 1: Intentar remover la especialidad asignada
+        try {
+            this.vetSpecialtyService.removeSpecialtyFromVet(VET_ID, SPECIALTY_ID);
+            log.info("Especialidad {} removida exitosamente del veterinario {}", SPECIALTY_ID, VET_ID);
+        } catch (VetSpecialtyNotFoundException e) {
+            fail("No debería fallar la eliminación de una especialidad existente: " + e.getMessage());
+        }
+
+        // Assert 1: Verificar directamente en el repositorio H2 que ya no existe
+        Optional<VetSpecialty> deletedRecord = this.repository.findByVetIdAndSpecialtyId(VET_ID, SPECIALTY_ID);
+        assertTrue(deletedRecord.isEmpty(), "El registro debió ser eliminado de la base de datos");
+
+        // Act 2 + Assert 2: Intentar quitarla otra vez debe lanzar VetSpecialtyNotFoundException
+        assertThrows(VetSpecialtyNotFoundException.class,
+                () -> this.vetSpecialtyService.removeSpecialtyFromVet(VET_ID, SPECIALTY_ID),
+                "Debería lanzar excepción al intentar remover una especialidad que ya no existe");
+    }
+
+}
