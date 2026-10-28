@@ -65,7 +65,7 @@ public class VetSpecialtyServiceTest {
         Integer VET_ID = 3;        // Linda Douglas
         Integer SPECIALTY_ID = 3;  // dentistry (existe en data.sql para el veterinario 3)
 
-        // Act: Intentar remover la especialidad asignada
+        // Act 1: Intentar remover la especialidad asignada
         try {
             this.vetSpecialtyService.removeSpecialtyFromVet(VET_ID, SPECIALTY_ID);
             log.info("Especialidad {} removida exitosamente del veterinario {}", SPECIALTY_ID, VET_ID);
@@ -73,9 +73,14 @@ public class VetSpecialtyServiceTest {
             fail("No debería fallar la eliminación de una especialidad existente: " + e.getMessage());
         }
 
-        // Assert: Verificar directamente en el repositorio H2 que ya no existe
+        // Assert 1: Verificar directamente en el repositorio H2 que ya no existe
         Optional<VetSpecialty> deletedRecord = this.repository.findByVetIdAndSpecialtyId(VET_ID, SPECIALTY_ID);
         assertTrue(deletedRecord.isEmpty(), "El registro debió ser eliminado de la base de datos");
+
+        // Act 2 + Assert 2: Intentar quitarla otra vez debe lanzar VetSpecialtyNotFoundException
+        assertThrows(VetSpecialtyNotFoundException.class,
+                () -> this.vetSpecialtyService.removeSpecialtyFromVet(VET_ID, SPECIALTY_ID),
+                "Debería lanzar excepción al intentar remover una especialidad que ya no existe");
     }
 
 }
