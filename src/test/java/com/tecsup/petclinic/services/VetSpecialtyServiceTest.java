@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
@@ -70,6 +72,10 @@ public class VetSpecialtyServiceTest {
         } catch (VetSpecialtyNotFoundException e) {
             fail("No debería fallar la eliminación de una especialidad existente: " + e.getMessage());
         }
+
+        // Assert: Verificar directamente en el repositorio H2 que ya no existe
+        Optional<VetSpecialty> deletedRecord = this.repository.findByVetIdAndSpecialtyId(VET_ID, SPECIALTY_ID);
+        assertTrue(deletedRecord.isEmpty(), "El registro debió ser eliminado de la base de datos");
     }
 
 }
