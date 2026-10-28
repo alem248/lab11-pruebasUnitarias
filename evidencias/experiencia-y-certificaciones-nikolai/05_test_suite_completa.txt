@@ -1,0 +1,182 @@
+﻿.\mvnw.cmd : WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+En línea: 1 Carácter: 344
++ ... /04_test_individual.txt" -Encoding utf8; .\mvnw.cmd test 2>&1 | Out-F ...
++                                              ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: A term...has been called:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/C
+:/Users/Nikolai/.m2/wrapper/dists/apache-maven-3.9.11/03d7e36a140982eea48e22c1dcac01d8862b2550b2939e09a0809bbc5182a5bc/
+lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+WARNING: Final field _cipher in class org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher has been 
+mutated reflectively by class org.eclipse.sisu.bean.BeanPropertyField in unnamed module @3bd40a57 (file:/C:/Users/Nikol
+ai/.m2/wrapper/dists/apache-maven-3.9.11/03d7e36a140982eea48e22c1dcac01d8862b2550b2939e09a0809bbc5182a5bc/lib/org.eclip
+se.sisu.inject-0.9.0.M4.jar)
+WARNING: Use --enable-final-field-mutation=ALL-UNNAMED to avoid a warning
+WARNING: Mutating final fields will be blocked in a future release unless final field mutation is enabled
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< com.tecsup:petclinic >------------------------
+[INFO] Building PetClinic 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ petclinic ---
+[INFO] Copying 4 resources from src\main\resources to target\classes
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ petclinic ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ petclinic ---
+[INFO] skip non existing resourceDirectory C:\Users\Nikolai\Downloads\labcalificado1\Paciente\petclinic_test\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ petclinic ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.5:test (default-test) @ petclinic ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.tecsup.petclinic.PetClinicApplicationTests
+21:24:43.673 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.tecsup.petclinic.PetClinicApplicationTests]: PetClinicApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+21:24:43.858 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.tecsup.petclinic.PetClinicApplication for test class com.tecsup.petclinic.PetClinicApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.14)
+
+2026-10-27T21:24:44.854-05:00  INFO 29716 --- [           main] c.t.petclinic.PetClinicApplicationTests  : Starting PetClinicApplicationTests using Java 26.0.2.1 with PID 29716 (started by Nikolai in C:\Users\Nikolai\Downloads\labcalificado1\Paciente\petclinic_test)
+2026-10-27T21:24:44.857-05:00  INFO 29716 --- [           main] c.t.petclinic.PetClinicApplicationTests  : The following 1 profile is active: "h2"
+2026-10-27T21:24:45.991-05:00  INFO 29716 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-27T21:24:46.095-05:00  INFO 29716 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 87 ms. Found 2 JPA repository interfaces.
+2026-10-27T21:24:47.006-05:00  INFO 29716 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-10-27T21:24:47.089-05:00  INFO 29716 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.49.Final
+2026-10-27T21:24:47.145-05:00  INFO 29716 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-10-27T21:24:47.749-05:00  INFO 29716 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-27T21:24:47.804-05:00  INFO 29716 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-27T21:24:48.123-05:00  INFO 29716 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-10-27T21:24:48.127-05:00  INFO 29716 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-27T21:24:48.165-05:00  WARN 29716 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-10-27T21:24:48.209-05:00  INFO 29716 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-27T21:24:49.613-05:00  INFO 29716 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-27T21:24:49.618-05:00  INFO 29716 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-27T21:24:50.817-05:00  WARN 29716 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-10-27T21:24:51.848-05:00  INFO 29716 --- [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2'. Database available at 'jdbc:h2:mem:testdb'
+2026-10-27T21:24:52.082-05:00  INFO 29716 --- [           main] c.t.petclinic.PetClinicApplicationTests  : Started PetClinicApplicationTests in 7.949 seconds (process running for 9.726)
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of 
+the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: 
+https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has 
+been appended
+WARNING: A Java agent has been loaded dynamically 
+(C:\Users\Nikolai\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.8\byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.386 s -- in com.tecsup.petclinic.PetClinicApplicationTests
+[INFO] Running com.tecsup.petclinic.services.PetServiceMockitoTest
+2026-10-27T21:24:52.781-05:00  INFO 29716 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.tecsup.petclinic.services.PetServiceMockitoTest]: PetServiceMockitoTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-27T21:24:52.814-05:00  INFO 29716 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.tecsup.petclinic.PetClinicApplication for test class com.tecsup.petclinic.services.PetServiceMockitoTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.14)
+
+2026-10-27T21:24:52.894-05:00  INFO 29716 --- [           main] c.t.p.services.PetServiceMockitoTest     : Starting PetServiceMockitoTest using Java 26.0.2.1 with PID 29716 (started by Nikolai in C:\Users\Nikolai\Downloads\labcalificado1\Paciente\petclinic_test)
+2026-10-27T21:24:52.894-05:00  INFO 29716 --- [           main] c.t.p.services.PetServiceMockitoTest     : The following 1 profile is active: "h2"
+2026-10-27T21:24:53.134-05:00  INFO 29716 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-27T21:24:53.156-05:00  INFO 29716 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 19 ms. Found 2 JPA repository interfaces.
+2026-10-27T21:24:53.595-05:00  INFO 29716 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-10-27T21:24:53.601-05:00  INFO 29716 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-10-27T21:24:53.617-05:00  INFO 29716 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-27T21:24:53.620-05:00  INFO 29716 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-10-27T21:24:53.621-05:00  INFO 29716 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn10: url=jdbc:h2:mem:testdb user=SA
+2026-10-27T21:24:53.622-05:00  INFO 29716 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-10-27T21:24:53.622-05:00  WARN 29716 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-10-27T21:24:53.623-05:00  INFO 29716 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-27T21:24:53.677-05:00  INFO 29716 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-27T21:24:53.677-05:00  INFO 29716 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-27T21:24:53.753-05:00  WARN 29716 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-10-27T21:24:53.950-05:00  INFO 29716 --- [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2'. Database available at 'jdbc:h2:mem:testdb'
+2026-10-27T21:24:54.045-05:00  INFO 29716 --- [           main] c.t.p.services.PetServiceMockitoTest     : Started PetServiceMockitoTest in 1.223 seconds (process running for 11.689)
+2026-10-27T21:24:54.095-05:00  INFO 29716 --- [           main] c.t.p.services.PetServiceMockitoTest     : PetDTO(id=4000, name=Bear, typeId=1, ownerId=1, birthDate=null)
+2026-10-27T21:24:54.100-05:00  INFO 29716 --- [           main] c.t.p.services.PetServiceMockitoTest     : {}PetDTO(id=4000, name=Bear2, typeId=2, ownerId=2, birthDate=null)
+2026-10-27T21:24:54.117-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceImpl    : Pet(id=1, name=Leo, typeId=1, ownerId=1, birthDate=null)
+2026-10-27T21:24:54.133-05:00  INFO 29716 --- [           main] c.t.p.services.PetServiceMockitoTest     : Pet(id=1, name=Leo, typeId=1, ownerId=1, birthDate=null)
+2026-10-27T21:24:54.134-05:00  INFO 29716 --- [           main] c.t.p.services.PetServiceMockitoTest     : PetDTO(id=1, name=Leo, typeId=1, ownerId=1, birthDate=null)
+2026-10-27T21:24:54.147-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceImpl    : Pet(id=12, name=Lucky, typeId=2, ownerId=10, birthDate=null)
+2026-10-27T21:24:54.148-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceImpl    : Pet(id=13, name=Sly, typeId=1, ownerId=10, birthDate=null)
+2026-10-27T21:24:54.159-05:00  INFO 29716 --- [           main] c.t.p.services.PetServiceMockitoTest     : PetDTO(id=2000, name=Bird, typeId=1, ownerId=1, birthDate=null)
+2026-10-27T21:24:54.174-05:00  INFO 29716 --- [           main] c.t.p.services.PetServiceMockitoTest     : Pet created : PetDTO(id=1000, name=Punky, typeId=1, ownerId=1, birthDate=null)
+2026-10-27T21:24:54.185-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceImpl    : Pet(id=9, name=Lucky, typeId=5, ownerId=7, birthDate=null)
+2026-10-27T21:24:54.185-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceImpl    : Pet(id=11, name=Freddy, typeId=5, ownerId=9, birthDate=null)
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.413 s -- in com.tecsup.petclinic.services.PetServiceMockitoTest
+[INFO] Running com.tecsup.petclinic.services.PetServiceTest
+2026-10-27T21:24:54.196-05:00  INFO 29716 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.tecsup.petclinic.services.PetServiceTest]: PetServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-27T21:24:54.200-05:00  INFO 29716 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.tecsup.petclinic.PetClinicApplication for test class com.tecsup.petclinic.services.PetServiceTest
+2026-10-27T21:24:54.211-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceTest    : >PetDTO(id=null, name=Bear, typeId=1, ownerId=1, birthDate=null)
+Hibernate: insert into pets (birth_date,name,owner_id,type_id,id) values (?,?,?,?,default)
+2026-10-27T21:24:54.349-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceTest    : >>PetDTO(id=14, name=Bear, typeId=1, ownerId=1, birthDate=null)
+Hibernate: select p1_0.id,p1_0.birth_date,p1_0.name,p1_0.owner_id,p1_0.type_id from pets p1_0 where p1_0.id=?
+Hibernate: update pets set birth_date=?,name=?,owner_id=?,type_id=? where id=?
+2026-10-27T21:24:54.402-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceTest    : >>>>PetDTO(id=14, name=Bear2, typeId=2, ownerId=2, birthDate=null)
+Hibernate: select p1_0.id,p1_0.birth_date,p1_0.name,p1_0.owner_id,p1_0.type_id from pets p1_0 where p1_0.name=?
+2026-10-27T21:24:54.630-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceImpl    : Pet(id=1, name=Leo, typeId=1, ownerId=1, birthDate=2000-09-07)
+Hibernate: select p1_0.id,p1_0.birth_date,p1_0.name,p1_0.owner_id,p1_0.type_id from pets p1_0 where p1_0.id=?
+Hibernate: select p1_0.id,p1_0.birth_date,p1_0.name,p1_0.owner_id,p1_0.type_id from pets p1_0 where p1_0.owner_id=?
+2026-10-27T21:24:54.663-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceImpl    : Pet(id=12, name=Lucky, typeId=2, ownerId=10, birthDate=2000-06-24)
+2026-10-27T21:24:54.663-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceImpl    : Pet(id=13, name=Sly, typeId=1, ownerId=10, birthDate=2002-06-08)
+Hibernate: insert into pets (birth_date,name,owner_id,type_id,id) values (?,?,?,?,default)
+2026-10-27T21:24:54.673-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceTest    : PetDTO(id=null, name=Bird, typeId=1, ownerId=1, birthDate=null)
+Hibernate: select p1_0.id,p1_0.birth_date,p1_0.name,p1_0.owner_id,p1_0.type_id from pets p1_0 where p1_0.id=?
+Hibernate: select p1_0.id,p1_0.birth_date,p1_0.name,p1_0.owner_id,p1_0.type_id from pets p1_0 where p1_0.id=?
+Hibernate: delete from pets where id=?
+Hibernate: select p1_0.id,p1_0.birth_date,p1_0.name,p1_0.owner_id,p1_0.type_id from pets p1_0 where p1_0.id=?
+Hibernate: insert into pets (birth_date,name,owner_id,type_id,id) values (?,?,?,?,default)
+2026-10-27T21:24:54.702-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceTest    : PET CREATED :PetDTO(id=16, name=Ponky, typeId=1, ownerId=1, birthDate=null)
+Hibernate: select p1_0.id,p1_0.birth_date,p1_0.name,p1_0.owner_id,p1_0.type_id from pets p1_0 where p1_0.type_id=?
+2026-10-27T21:24:54.718-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceImpl    : Pet(id=9, name=Lucky, typeId=5, ownerId=7, birthDate=1999-08-06)
+2026-10-27T21:24:54.718-05:00  INFO 29716 --- [           main] c.t.petclinic.services.PetServiceImpl    : Pet(id=11, name=Freddy, typeId=5, ownerId=9, birthDate=2000-03-09)
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.528 s -- in com.tecsup.petclinic.services.PetServiceTest
+[INFO] Running com.tecsup.petclinic.services.VetSpecialtyServiceTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.166 s -- in com.tecsup.petclinic.services.VetSpecialtyServiceTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  15.734 s
+[INFO] Finished at: 2026-10-27T21:24:55-05:00
+[INFO] ------------------------------------------------------------------------
