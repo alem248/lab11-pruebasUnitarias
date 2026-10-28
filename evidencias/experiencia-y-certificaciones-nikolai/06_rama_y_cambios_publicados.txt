@@ -1,0 +1,23 @@
+﻿58d381a docs: agregar capturas de codigo y pruebas
+c459d9e test: verificar casos de prueba y corregir errores
+b1901f3 test: agregar actualizacion de fecha de certificacion
+17f7538 test: agregar actualizacion de a├▒os de experiencia
+c28b951 test: implementar busqueda por experiencia minima
+a056212 test: preparar estructura de pruebas de experiencia
+---
+* experiencia-y-certificaciones-nikolai
+  main
+  remotes/origin/HEAD -> origin/main
+  remotes/origin/experiencia-y-certificaciones-nikolai
+  remotes/origin/feature/grupo5-integranteA-asignaciones
+  remotes/origin/feature/vet-specialty-primary
+  remotes/origin/main
+  remotes/origin/nf_integration_test
+  remotes/origin/nf_mapper
+---
+origin	https://github.com/alem248/lab11-pruebasUnitarias.git (fetch)
+origin	https://github.com/alem248/lab11-pruebasUnitarias.git (push)
+---
+Rama: experiencia-y-certificaciones-nikolai
+Repositorio destino: https://github.com/alem248/lab11-pruebasUnitarias.git
+Enlace directo: https://github.com/alem248/lab11-pruebasUnitarias/tree/experiencia-y-certificaciones-nikolai
