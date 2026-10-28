@@ -1,92 +1,119 @@
 package com.tecsup.petclinic.services;
 
+import com.tecsup.petclinic.dtos.SpecialtyDTO;
+import com.tecsup.petclinic.dtos.VetDTO;
+import com.tecsup.petclinic.entities.Specialty;
+import com.tecsup.petclinic.entities.Vet;
 import com.tecsup.petclinic.entities.VetSpecialty;
-import com.tecsup.petclinic.exceptions.VetSpecialtyAlreadyAssignedException;
-import com.tecsup.petclinic.exceptions.VetSpecialtyNotFoundException;
+import com.tecsup.petclinic.exceptions.VetNotFoundException;
+import com.tecsup.petclinic.repositories.SpecialtyRepository;
+import com.tecsup.petclinic.repositories.VetRepository;
 import com.tecsup.petclinic.repositories.VetSpecialtyRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 @SpringBootTest
-@Transactional
 public class VetSpecialtyServiceTest {
 
     @Autowired
     private VetSpecialtyService vetSpecialtyService;
 
-    @Autowired
-    private VetSpecialtyRepository repository;
+    @MockitoBean
+    private VetRepository vetRepository;
 
-    /**
-     * Prueba: Asignar una especialidad de forma exitosa a un veterinario.
-     */
+    @MockitoBean
+    private SpecialtyRepository specialtyRepository;
+
+    @MockitoBean
+    private VetSpecialtyRepository vetSpecialtyRepository;
+
     @Test
-    public void testAssignSpecialtyToVet() {
-        Integer VET_ID = 1;        // James Carter (según data.sql)
-        Integer SPECIALTY_ID = 3;  // dentistry
+    public void testFindSpecialtiesByVet() {
 
+        Integer vetId = 1;
+
+        Vet vet = new Vet(1, "James", "Carter", "jcarter@petclinic.com", "608555102", true);
+        Mockito.when(this.vetRepository.findById(vetId))
+                .thenReturn(Optional.of(vet));
+
+        List<VetSpecialty> vetSpecialties = new ArrayList<>();
+        vetSpecialties.add(new VetSpecialty(1, 1, null, 5, true, null));
+        vetSpecialties.add(new VetSpecialty(1, 2, null, 3, false, null));
+        Mockito.when(this.vetSpecialtyRepository.findByVetId(vetId))
+                .thenReturn(vetSpecialties);
+
+        List<Specialty> specialties = new ArrayList<>();
+        specialties.add(new Specialty(1, "radiology", "Room 1", 9, 17));
+        specialties.add(new Specialty(2, "surgery", "Room 2", 9, 18));
+        Mockito.when(this.specialtyRepository.findAllById(Mockito.anyList()))
+                .thenReturn(specialties);
+
+        List<SpecialtyDTO> specialtiesDTO = null;
         try {
-            VetSpecialty result = this.vetSpecialtyService.assignSpecialtyToVet(VET_ID, SPECIALTY_ID);
-            log.info("Asignación creada en H2: {}", result);
-
-            assertNotNull(result);
-            assertEquals(VET_ID, result.getVetId());
-            assertEquals(SPECIALTY_ID, result.getSpecialtyId());
-            assertFalse(result.getPrimary());
-
-        } catch (VetSpecialtyAlreadyAssignedException e) {
-            fail("No debería lanzar excepción al asignar una especialidad válida: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Integrante A: No permitir asignar dos veces la misma especialidad.
-     */
-    @Test
-    public void testAssignDuplicate_ShouldFail() {
-        Integer VET_ID = 2;        // Helen Leary
-        Integer SPECIALTY_ID = 1;  // radiology (ya asignada en data.sql)
-
-        // Act + Assert: Debe lanzar la excepción porque ya existe en la BD
-        VetSpecialtyAlreadyAssignedException ex = assertThrows(
-                VetSpecialtyAlreadyAssignedException.class,
-                () -> this.vetSpecialtyService.assignSpecialtyToVet(VET_ID, SPECIALTY_ID));
-
-        log.info("Excepción esperada: {}", ex.getMessage());
-    }
-
-    /**
-     * Integrante A: Quitar especialidad y validar excepciones o ausencia en BD.
-     */
-    @Test
-    public void testRemoveSpecialtyFromVet() {
-        Integer VET_ID = 3;        // Linda Douglas
-        Integer SPECIALTY_ID = 3;  // dentistry (existe en data.sql para el veterinario 3)
-
-        // Act 1: Intentar remover la especialidad asignada
-        try {
-            this.vetSpecialtyService.removeSpecialtyFromVet(VET_ID, SPECIALTY_ID);
-            log.info("Especialidad {} removida exitosamente del veterinario {}", SPECIALTY_ID, VET_ID);
-        } catch (VetSpecialtyNotFoundException e) {
-            fail("No debería fallar la eliminación de una especialidad existente: " + e.getMessage());
+            specialtiesDTO = this.vetSpecialtyService.findSpecialtiesByVet(vetId);
+        } catch (VetNotFoundException e) {
+            fail(e.getMessage());
         }
 
-        // Assert 1: Verificar directamente en el repositorio H2 que ya no existe
-        Optional<VetSpecialty> deletedRecord = this.repository.findByVetIdAndSpecialtyId(VET_ID, SPECIALTY_ID);
-        assertTrue(deletedRecord.isEmpty(), "El registro debió ser eliminado de la base de datos");
-
-        // Act 2 + Assert 2: Intentar quitarla otra vez debe lanzar VetSpecialtyNotFoundException
-        assertThrows(VetSpecialtyNotFoundException.class,
-                () -> this.vetSpecialtyService.removeSpecialtyFromVet(VET_ID, SPECIALTY_ID),
-                "Debería lanzar excepción al intentar remover una especialidad que ya no existe");
+        assertNotNull(specialtiesDTO);
+        assertEquals(2, specialtiesDTO.size());
     }
 
+    @Test
+    public void testFindVetsBySpecialty() {
+
+        Integer specialtyId = 1;
+
+        List<VetSpecialty> vetSpecialties = new ArrayList<>();
+        vetSpecialties.add(new VetSpecialty(1, 1, null, 5, true, null));
+        vetSpecialties.add(new VetSpecialty(2, 1, null, 2, true, null));
+        Mockito.when(this.vetSpecialtyRepository.findBySpecialtyId(specialtyId))
+                .thenReturn(vetSpecialties);
+
+        List<Vet> vets = new ArrayList<>();
+        vets.add(new Vet(1, "James", "Carter", "jcarter@petclinic.com", "608555102", true));
+        vets.add(new Vet(2, "Helen", "Leary", "hleary@petclinic.com", "608555173", true));
+        Mockito.when(this.vetRepository.findAllById(Mockito.anyList()))
+                .thenReturn(vets);
+
+        List<VetDTO> vetsDTO = this.vetSpecialtyService.findVetsBySpecialty(specialtyId);
+
+        assertNotNull(vetsDTO);
+        assertEquals(2, vetsDTO.size());
+    }
+
+    @Test
+    public void testFindSpecialtiesByVet_Empty() {
+
+        Integer vetId = 1;
+
+        Vet vet = new Vet(1, "James", "Carter", "jcarter@petclinic.com", "608555102", true);
+        Mockito.when(this.vetRepository.findById(vetId))
+                .thenReturn(Optional.of(vet));
+
+        Mockito.when(this.vetSpecialtyRepository.findByVetId(vetId))
+                .thenReturn(Collections.emptyList());
+
+        List<SpecialtyDTO> specialtiesDTO = null;
+        try {
+            specialtiesDTO = this.vetSpecialtyService.findSpecialtiesByVet(vetId);
+        } catch (VetNotFoundException e) {
+            fail(e.getMessage());
+        }
+
+        assertNotNull(specialtiesDTO);
+        assertTrue(specialtiesDTO.isEmpty());
+    }
 }
