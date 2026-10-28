@@ -34,13 +34,24 @@ public class VetSpecialtyServiceTest {
             assertNotNull(result);
             assertEquals(VET_ID, result.getVetId());
             assertEquals(SPECIALTY_ID, result.getSpecialtyId());
-
-            // Validar que por defecto la especialidad no sea primaria
             assertFalse(result.getPrimary());
 
         } catch (VetSpecialtyAlreadyAssignedException e) {
             fail("No debería lanzar excepción al asignar una especialidad válida: " + e.getMessage());
         }
+    }
+
+    @Test
+    public void testAssignDuplicate_ShouldFail() {
+        Integer VET_ID = 2;        // Helen Leary
+        Integer SPECIALTY_ID = 1;  // radiology (ya asignada en data.sql)
+
+        // Act + Assert: Debe lanzar la excepción porque ya existe en la BD
+        VetSpecialtyAlreadyAssignedException ex = assertThrows(
+                VetSpecialtyAlreadyAssignedException.class,
+                () -> this.vetSpecialtyService.assignSpecialtyToVet(VET_ID, SPECIALTY_ID));
+
+        log.info("Excepción esperada: {}", ex.getMessage());
     }
 
 }
