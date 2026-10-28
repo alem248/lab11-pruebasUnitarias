@@ -25,6 +25,9 @@ public class VetSpecialtyServiceTest {
     @Autowired
     private VetSpecialtyRepository repository;
 
+    /**
+     * Prueba: Asignar una especialidad de forma exitosa a un veterinario.
+     */
     @Test
     public void testAssignSpecialtyToVet() {
         Integer VET_ID = 1;        // James Carter (según data.sql)
@@ -44,6 +47,9 @@ public class VetSpecialtyServiceTest {
         }
     }
 
+    /**
+     * Integrante A: No permitir asignar dos veces la misma especialidad.
+     */
     @Test
     public void testAssignDuplicate_ShouldFail() {
         Integer VET_ID = 2;        // Helen Leary
@@ -58,7 +64,7 @@ public class VetSpecialtyServiceTest {
     }
 
     /**
-     * Integrante A: quitar especialidad
+     * Integrante A: Quitar especialidad y validar excepciones o ausencia en BD.
      */
     @Test
     public void testRemoveSpecialtyFromVet() {
