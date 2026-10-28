@@ -34,6 +34,10 @@ public class VetSpecialtyServiceTest {
             assertNotNull(result);
             assertEquals(VET_ID, result.getVetId());
             assertEquals(SPECIALTY_ID, result.getSpecialtyId());
+
+            // Validar que por defecto la especialidad no sea primaria
+            assertFalse(result.getPrimary());
+
         } catch (VetSpecialtyAlreadyAssignedException e) {
             fail("No debería lanzar excepción al asignar una especialidad válida: " + e.getMessage());
         }
