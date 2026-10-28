@@ -11,10 +11,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
@@ -86,5 +90,73 @@ public class VetSpecialtyServiceTest {
 				() -> vetSpecialtyService.setPrimarySpecialty(VET_ID, 99));
 
 		verify(vetSpecialtyRepository, never()).saveAll(anyList());
+	}
+
+	@Test
+	public void testFindVetsByMinExperience() {
+
+		Integer specialtyId = 10;
+		Integer minExperience = 5;
+
+		VetSpecialty vet1 = assignment(1, specialtyId, false);
+		vet1.setYearsExperience(10);
+		VetSpecialty vet2 = assignment(2, specialtyId, true);
+		vet2.setYearsExperience(7);
+
+		when(vetSpecialtyRepository.findBySpecialtyIdAndYearsExperienceGreaterThanEqual(specialtyId, minExperience))
+				.thenReturn(Arrays.asList(vet1, vet2));
+
+		List<VetSpecialty> result = vetSpecialtyService.findVetsByMinExperience(specialtyId, minExperience);
+
+		assertNotNull(result);
+		assertEquals(2, result.size());
+		assertTrue(result.stream().allMatch(vs -> vs.getYearsExperience() >= minExperience));
+		verify(vetSpecialtyRepository).findBySpecialtyIdAndYearsExperienceGreaterThanEqual(specialtyId, minExperience);
+	}
+
+	@Test
+	public void testUpdateYearsExperience() {
+
+		Integer vetId = 1;
+		Integer specialtyId = 10;
+		Integer newYearsExperience = 12;
+
+		VetSpecialty assignment = assignment(1, specialtyId, false);
+		assignment.setYearsExperience(5);
+
+		when(vetSpecialtyRepository.findByVetIdAndSpecialtyId(vetId, specialtyId))
+				.thenReturn(Optional.of(assignment));
+		when(vetSpecialtyRepository.save(any(VetSpecialty.class)))
+				.thenReturn(assignment);
+
+		VetSpecialty result = vetSpecialtyService.updateYearsExperience(vetId, specialtyId, newYearsExperience);
+
+		assertNotNull(result);
+		assertEquals(newYearsExperience, assignment.getYearsExperience());
+		verify(vetSpecialtyRepository).findByVetIdAndSpecialtyId(vetId, specialtyId);
+		verify(vetSpecialtyRepository).save(assignment);
+	}
+
+	@Test
+	public void testUpdateCertificationDate() {
+
+		Integer vetId = 1;
+		Integer specialtyId = 10;
+		LocalDate certificationDate = LocalDate.of(2024, 6, 15);
+
+		VetSpecialty assignment = assignment(1, specialtyId, false);
+		assignment.setCertificationDate(LocalDate.of(2020, 1, 1));
+
+		when(vetSpecialtyRepository.findByVetIdAndSpecialtyId(vetId, specialtyId))
+				.thenReturn(Optional.of(assignment));
+		when(vetSpecialtyRepository.save(any(VetSpecialty.class)))
+				.thenReturn(assignment);
+
+		VetSpecialty result = vetSpecialtyService.updateCertificationDate(vetId, specialtyId, certificationDate);
+
+		assertNotNull(result);
+		assertEquals(certificationDate, assignment.getCertificationDate());
+		verify(vetSpecialtyRepository).findByVetIdAndSpecialtyId(vetId, specialtyId);
+		verify(vetSpecialtyRepository).save(assignment);
 	}
 }
