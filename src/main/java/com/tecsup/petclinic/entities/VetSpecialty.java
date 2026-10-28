@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity(name = "vet_specialties")
 @Data
 @NoArgsConstructor
@@ -25,4 +27,17 @@ public class VetSpecialty {
 
 	@Column(name = "is_primary")
 	private boolean primary;
+
+	@Column(name = "years_experience")
+	private Integer yearsExperience;
+
+	@Column(name = "certification_date")
+	private LocalDate certificationDate;
+
+	public VetSpecialty(Integer id, Vet vet, Specialty specialty, boolean primary) {
+		this.id = id;
+		this.vet = vet;
+		this.specialty = specialty;
+		this.primary = primary;
+	}
 }

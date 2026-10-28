@@ -11,4 +11,8 @@ public interface VetSpecialtyRepository extends JpaRepository<VetSpecialty, Inte
 	List<VetSpecialty> findByVetId(Integer vetId);
 
 	Optional<VetSpecialty> findByVetIdAndSpecialtyId(Integer vetId, Integer specialtyId);
+
+	List<VetSpecialty> findBySpecialtyId(Integer specialtyId);
+
+	List<VetSpecialty> findBySpecialtyIdAndYearsExperienceGreaterThanEqual(Integer specialtyId, Integer minExperience);
 }
