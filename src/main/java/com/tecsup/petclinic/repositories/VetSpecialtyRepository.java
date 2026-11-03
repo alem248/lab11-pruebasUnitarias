@@ -19,4 +19,7 @@ public interface VetSpecialtyRepository
 	// Buscar una asignación puntual
 	Optional<VetSpecialty> findByVetIdAndSpecialtyId(Integer vetId, Integer specialtyId);
     List<VetSpecialty> findBySpecialtyId(Integer specialtyId);
+
+	// Veterinarios de una especialidad con experiencia minima
+	List<VetSpecialty> findBySpecialtyIdAndYearsExperienceGreaterThanEqual(Integer specialtyId, Integer minExperience);
 }

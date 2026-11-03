@@ -8,6 +8,7 @@ import com.tecsup.petclinic.dtos.VetDTO;
 import com.tecsup.petclinic.exceptions.VetNotFoundException;
 import com.tecsup.petclinic.exceptions.SpecialtyNotAssignedException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface VetSpecialtyService {
@@ -30,4 +31,20 @@ public interface VetSpecialtyService {
      * Marca una especialidad ya asignada como principal y desmarca las demás del veterinario.
      */
     VetSpecialty setPrimarySpecialty(Integer vetId, Integer specialtyId);
+
+    /**
+     * Lista las asignaciones de una especialidad con al menos minExperience anios de experiencia.
+     * Si minExperience es null devuelve todas las asignaciones de la especialidad.
+     */
+    List<VetSpecialty> findVetsByMinExperience(Integer specialtyId, Integer minExperience);
+
+    /**
+     * Actualiza los anios de experiencia de un veterinario en una especialidad asignada.
+     */
+    VetSpecialty updateYearsExperience(Integer vetId, Integer specialtyId, Integer yearsExperience);
+
+    /**
+     * Actualiza la fecha de certificacion de un veterinario en una especialidad asignada.
+     */
+    VetSpecialty updateCertificationDate(Integer vetId, Integer specialtyId, LocalDate certificationDate);
 }

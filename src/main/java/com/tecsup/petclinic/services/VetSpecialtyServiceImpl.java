@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -119,10 +120,36 @@ public class VetSpecialtyServiceImpl implements VetSpecialtyService {
 
         List<VetSpecialty> assignments = vetSpecialtyRepository.findByVetId(vetId);
         for (VetSpecialty assignment : assignments) {
-            assignment.setPrimary(assignment.getSpecialtyId().equals(specialtyId));
+            assignment.setIsPrimary(assignment.getSpecialtyId().equals(specialtyId));
         }
         vetSpecialtyRepository.saveAll(assignments);
 
         return target;
+    }
+
+    @Override
+    public List<VetSpecialty> findVetsByMinExperience(Integer specialtyId, Integer minExperience) {
+        if (minExperience == null) {
+            return vetSpecialtyRepository.findBySpecialtyId(specialtyId);
+        }
+        return vetSpecialtyRepository.findBySpecialtyIdAndYearsExperienceGreaterThanEqual(specialtyId, minExperience);
+    }
+
+    @Override
+    @Transactional
+    public VetSpecialty updateYearsExperience(Integer vetId, Integer specialtyId, Integer yearsExperience) {
+        VetSpecialty target = vetSpecialtyRepository.findByVetIdAndSpecialtyId(vetId, specialtyId)
+                .orElseThrow(() -> new SpecialtyNotAssignedException(vetId, specialtyId));
+        target.setYearsExperience(yearsExperience);
+        return vetSpecialtyRepository.save(target);
+    }
+
+    @Override
+    @Transactional
+    public VetSpecialty updateCertificationDate(Integer vetId, Integer specialtyId, LocalDate certificationDate) {
+        VetSpecialty target = vetSpecialtyRepository.findByVetIdAndSpecialtyId(vetId, specialtyId)
+                .orElseThrow(() -> new SpecialtyNotAssignedException(vetId, specialtyId));
+        target.setCertificationDate(certificationDate);
+        return vetSpecialtyRepository.save(target);
     }
 }
