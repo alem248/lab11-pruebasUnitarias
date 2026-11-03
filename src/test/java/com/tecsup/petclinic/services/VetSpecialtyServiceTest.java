@@ -5,6 +5,7 @@ import com.tecsup.petclinic.dtos.VetDTO;
 import com.tecsup.petclinic.entities.Specialty;
 import com.tecsup.petclinic.entities.Vet;
 import com.tecsup.petclinic.entities.VetSpecialty;
+import com.tecsup.petclinic.exceptions.SpecialtyNotAssignedException;
 import com.tecsup.petclinic.exceptions.VetNotFoundException;
 import com.tecsup.petclinic.repositories.SpecialtyRepository;
 import com.tecsup.petclinic.repositories.VetRepository;
@@ -115,5 +116,60 @@ public class VetSpecialtyServiceTest {
 
         assertNotNull(specialtiesDTO);
         assertTrue(specialtiesDTO.isEmpty());
+    }
+
+    /**
+     * Integrante C — Especialidad principal (Grupo 5).
+     */
+    @Test
+    public void testSetPrimarySpecialty() {
+
+        VetSpecialty cirugia = VetSpecialty.builder().vetId(1).specialtyId(10).isPrimary(false).build();
+        VetSpecialty dermatologia = VetSpecialty.builder().vetId(1).specialtyId(20).isPrimary(false).build();
+
+        Mockito.when(this.vetSpecialtyRepository.findByVetIdAndSpecialtyId(1, 20))
+                .thenReturn(Optional.of(dermatologia));
+        Mockito.when(this.vetSpecialtyRepository.findByVetId(1))
+                .thenReturn(List.of(cirugia, dermatologia));
+
+        VetSpecialty result = this.vetSpecialtyService.setPrimarySpecialty(1, 20);
+
+        assertTrue(result.getIsPrimary());
+        assertTrue(dermatologia.getIsPrimary());
+        assertFalse(cirugia.getIsPrimary());
+        Mockito.verify(this.vetSpecialtyRepository).saveAll(Mockito.anyList());
+    }
+
+    @Test
+    public void testSetPrimarySpecialty_OnlyOnePrimary() {
+
+        VetSpecialty cirugia = VetSpecialty.builder().vetId(1).specialtyId(10).isPrimary(true).build();
+        VetSpecialty dermatologia = VetSpecialty.builder().vetId(1).specialtyId(20).isPrimary(false).build();
+
+        Mockito.when(this.vetSpecialtyRepository.findByVetIdAndSpecialtyId(1, 20))
+                .thenReturn(Optional.of(dermatologia));
+        Mockito.when(this.vetSpecialtyRepository.findByVetId(1))
+                .thenReturn(List.of(cirugia, dermatologia));
+
+        this.vetSpecialtyService.setPrimarySpecialty(1, 20);
+
+        long primaries = List.of(cirugia, dermatologia).stream()
+                .filter(VetSpecialty::getIsPrimary)
+                .count();
+        assertEquals(1, primaries);
+        assertFalse(cirugia.getIsPrimary());
+        assertTrue(dermatologia.getIsPrimary());
+    }
+
+    @Test
+    public void testSetPrimarySpecialty_NotAssigned() {
+
+        Mockito.when(this.vetSpecialtyRepository.findByVetIdAndSpecialtyId(1, 99))
+                .thenReturn(Optional.empty());
+
+        assertThrows(SpecialtyNotAssignedException.class,
+                () -> this.vetSpecialtyService.setPrimarySpecialty(1, 99));
+
+        Mockito.verify(this.vetSpecialtyRepository, Mockito.never()).saveAll(Mockito.anyList());
     }
 }

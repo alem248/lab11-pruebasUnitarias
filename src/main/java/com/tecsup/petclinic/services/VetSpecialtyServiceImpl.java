@@ -119,7 +119,7 @@ public class VetSpecialtyServiceImpl implements VetSpecialtyService {
 
         List<VetSpecialty> assignments = vetSpecialtyRepository.findByVetId(vetId);
         for (VetSpecialty assignment : assignments) {
-            assignment.setPrimary(assignment.getSpecialtyId().equals(specialtyId));
+            assignment.setIsPrimary(assignment.getSpecialtyId().equals(specialtyId));
         }
         vetSpecialtyRepository.saveAll(assignments);
 
