@@ -14,8 +14,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class VetSpecialtyId implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Integer vetId;
-	private Integer specialtyId;
+    private Integer vetId;
+
+    private Integer specialtyId;
 }
