@@ -1,90 +1,119 @@
 package com.tecsup.petclinic.services;
 
+import com.tecsup.petclinic.dtos.SpecialtyDTO;
+import com.tecsup.petclinic.dtos.VetDTO;
 import com.tecsup.petclinic.entities.Specialty;
 import com.tecsup.petclinic.entities.Vet;
 import com.tecsup.petclinic.entities.VetSpecialty;
-import com.tecsup.petclinic.exceptions.SpecialtyNotAssignedException;
+import com.tecsup.petclinic.exceptions.VetNotFoundException;
+import com.tecsup.petclinic.repositories.SpecialtyRepository;
+import com.tecsup.petclinic.repositories.VetRepository;
 import com.tecsup.petclinic.repositories.VetSpecialtyRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.*;
 
-/**
- * Integrante C — Especialidad principal (Grupo 5).
- */
-@ExtendWith(MockitoExtension.class)
+@Slf4j
+@SpringBootTest
 public class VetSpecialtyServiceTest {
 
-	private static final Integer VET_ID = 1;
+    @Autowired
+    private VetSpecialtyService vetSpecialtyService;
 
-	@Mock
-	private VetSpecialtyRepository vetSpecialtyRepository;
+    @MockitoBean
+    private VetRepository vetRepository;
 
-	@InjectMocks
-	private VetSpecialtyServiceImpl vetSpecialtyService;
+    @MockitoBean
+    private SpecialtyRepository specialtyRepository;
 
-	private VetSpecialty assignment(Integer id, Integer specialtyId, boolean primary) {
-		Vet vet = new Vet(VET_ID, "Dr. Pérez", true);
-		Specialty specialty = new Specialty(specialtyId, "Especialidad " + specialtyId);
-		return new VetSpecialty(id, vet, specialty, primary);
-	}
+    @MockitoBean
+    private VetSpecialtyRepository vetSpecialtyRepository;
 
-	@Test
-	public void testSetPrimarySpecialty() {
+    @Test
+    public void testFindSpecialtiesByVet() {
 
-		VetSpecialty cirugia = assignment(1, 10, false);
-		VetSpecialty dermatologia = assignment(2, 20, false);
+        Integer vetId = 1;
 
-		when(vetSpecialtyRepository.findByVetIdAndSpecialtyId(VET_ID, 20))
-				.thenReturn(Optional.of(dermatologia));
-		when(vetSpecialtyRepository.findByVetId(VET_ID))
-				.thenReturn(List.of(cirugia, dermatologia));
+        Vet vet = new Vet(1, "James", "Carter", "jcarter@petclinic.com", "608555102", true);
+        Mockito.when(this.vetRepository.findById(vetId))
+                .thenReturn(Optional.of(vet));
 
-		VetSpecialty result = vetSpecialtyService.setPrimarySpecialty(VET_ID, 20);
+        List<VetSpecialty> vetSpecialties = new ArrayList<>();
+        vetSpecialties.add(new VetSpecialty(1, 1, null, 5, true, null));
+        vetSpecialties.add(new VetSpecialty(1, 2, null, 3, false, null));
+        Mockito.when(this.vetSpecialtyRepository.findByVetId(vetId))
+                .thenReturn(vetSpecialties);
 
-		assertTrue(result.isPrimary());
-		assertTrue(dermatologia.isPrimary());
-		assertFalse(cirugia.isPrimary());
-		verify(vetSpecialtyRepository).saveAll(anyList());
-	}
+        List<Specialty> specialties = new ArrayList<>();
+        specialties.add(new Specialty(1, "radiology", "Room 1", 9, 17));
+        specialties.add(new Specialty(2, "surgery", "Room 2", 9, 18));
+        Mockito.when(this.specialtyRepository.findAllById(Mockito.anyList()))
+                .thenReturn(specialties);
 
-	@Test
-	public void testSetPrimarySpecialty_OnlyOnePrimary() {
+        List<SpecialtyDTO> specialtiesDTO = null;
+        try {
+            specialtiesDTO = this.vetSpecialtyService.findSpecialtiesByVet(vetId);
+        } catch (VetNotFoundException e) {
+            fail(e.getMessage());
+        }
 
-		VetSpecialty cirugia = assignment(1, 10, true);
-		VetSpecialty dermatologia = assignment(2, 20, false);
+        assertNotNull(specialtiesDTO);
+        assertEquals(2, specialtiesDTO.size());
+    }
 
-		when(vetSpecialtyRepository.findByVetIdAndSpecialtyId(VET_ID, 20))
-				.thenReturn(Optional.of(dermatologia));
-		when(vetSpecialtyRepository.findByVetId(VET_ID))
-				.thenReturn(List.of(cirugia, dermatologia));
+    @Test
+    public void testFindVetsBySpecialty() {
 
-		vetSpecialtyService.setPrimarySpecialty(VET_ID, 20);
+        Integer specialtyId = 1;
 
-		long primaries = List.of(cirugia, dermatologia).stream().filter(VetSpecialty::isPrimary).count();
-		assertEquals(1, primaries);
-		assertFalse(cirugia.isPrimary());
-		assertTrue(dermatologia.isPrimary());
-	}
+        List<VetSpecialty> vetSpecialties = new ArrayList<>();
+        vetSpecialties.add(new VetSpecialty(1, 1, null, 5, true, null));
+        vetSpecialties.add(new VetSpecialty(2, 1, null, 2, true, null));
+        Mockito.when(this.vetSpecialtyRepository.findBySpecialtyId(specialtyId))
+                .thenReturn(vetSpecialties);
 
-	@Test
-	public void testSetPrimarySpecialty_NotAssigned() {
+        List<Vet> vets = new ArrayList<>();
+        vets.add(new Vet(1, "James", "Carter", "jcarter@petclinic.com", "608555102", true));
+        vets.add(new Vet(2, "Helen", "Leary", "hleary@petclinic.com", "608555173", true));
+        Mockito.when(this.vetRepository.findAllById(Mockito.anyList()))
+                .thenReturn(vets);
 
-		when(vetSpecialtyRepository.findByVetIdAndSpecialtyId(VET_ID, 99))
-				.thenReturn(Optional.empty());
+        List<VetDTO> vetsDTO = this.vetSpecialtyService.findVetsBySpecialty(specialtyId);
 
-		assertThrows(SpecialtyNotAssignedException.class,
-				() -> vetSpecialtyService.setPrimarySpecialty(VET_ID, 99));
+        assertNotNull(vetsDTO);
+        assertEquals(2, vetsDTO.size());
+    }
 
-		verify(vetSpecialtyRepository, never()).saveAll(anyList());
-	}
+    @Test
+    public void testFindSpecialtiesByVet_Empty() {
+
+        Integer vetId = 1;
+
+        Vet vet = new Vet(1, "James", "Carter", "jcarter@petclinic.com", "608555102", true);
+        Mockito.when(this.vetRepository.findById(vetId))
+                .thenReturn(Optional.of(vet));
+
+        Mockito.when(this.vetSpecialtyRepository.findByVetId(vetId))
+                .thenReturn(Collections.emptyList());
+
+        List<SpecialtyDTO> specialtiesDTO = null;
+        try {
+            specialtiesDTO = this.vetSpecialtyService.findSpecialtiesByVet(vetId);
+        } catch (VetNotFoundException e) {
+            fail(e.getMessage());
+        }
+
+        assertNotNull(specialtiesDTO);
+        assertTrue(specialtiesDTO.isEmpty());
+    }
 }

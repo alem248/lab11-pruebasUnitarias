@@ -1,14 +1,22 @@
 package com.tecsup.petclinic.repositories;
 
 import com.tecsup.petclinic.entities.VetSpecialty;
+import com.tecsup.petclinic.entities.VetSpecialtyId;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.List;
 
-public interface VetSpecialtyRepository extends JpaRepository<VetSpecialty, Integer> {
+@Repository
+public interface VetSpecialtyRepository
+	extends JpaRepository<VetSpecialty, VetSpecialtyId> {
 
-	List<VetSpecialty> findByVetId(Integer vetId);
+	// ¿Ya existe la asignación?
+	boolean existsByVetIdAndSpecialtyId(Integer vetId, Integer specialtyId);
+    List<VetSpecialty> findByVetId(Integer vetId);
 
+	// Buscar una asignación puntual
 	Optional<VetSpecialty> findByVetIdAndSpecialtyId(Integer vetId, Integer specialtyId);
+    List<VetSpecialty> findBySpecialtyId(Integer specialtyId);
 }

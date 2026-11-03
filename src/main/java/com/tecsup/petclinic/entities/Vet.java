@@ -6,14 +6,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "vets")
-@Data
 @NoArgsConstructor
+@Data
 @AllArgsConstructor
 public class Vet {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	private String name;
-	private boolean active = true;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    private String email;
+
+    private String phone;
+
+    private Boolean active;
 }

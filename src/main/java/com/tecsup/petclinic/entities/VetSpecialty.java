@@ -2,27 +2,39 @@ package com.tecsup.petclinic.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
+/**
+ * Relación Veterinario - Especialidad (tabla vet_specialties)
+ */
 @Entity(name = "vet_specialties")
+@IdClass(VetSpecialtyId.class)
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class VetSpecialty {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @Column(name = "vet_id")
+    private Integer vetId;
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "vet_id")
-	private Vet vet;
+    @Id
+    @Column(name = "specialty_id")
+    private Integer specialtyId;
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "specialty_id")
-	private Specialty specialty;
+    @Column(name = "certification_date")
+    private LocalDate certificationDate;
 
-	@Column(name = "is_primary")
-	private boolean primary;
+    @Column(name = "years_experience")
+    private Integer yearsExperience;
+
+    @Column(name = "is_primary")
+    private Boolean isPrimary;
+
+    private String notes;
 }
